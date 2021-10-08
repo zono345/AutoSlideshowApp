@@ -19,9 +19,8 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     private val PERMISSION_REQUEST_CODE = 100
-
-    var listId = arrayListOf<Long>() //画像のIDの全データを格納するリスト
-    var i:Int = 0 //listIdのインデックス番号を指定する変数
+    private var listId = arrayListOf<Long>() //画像のIDの全データを格納するリスト
+    private var i:Int = 0 //listIdのインデックス番号を指定する変数
     private var mHandler = Handler()
     private var mTimer: Timer? = null
 
