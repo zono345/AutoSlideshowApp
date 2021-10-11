@@ -11,10 +11,13 @@ import android.os.Handler
 import android.util.Log
 import android.provider.MediaStore
 import android.content.ContentUris
+import android.database.Cursor
 import android.net.Uri
+import android.view.View
 import android.webkit.PermissionRequest
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     private var i:Int = 0 //listIdのインデックス番号を指定する変数
     private var mHandler = Handler()
     private var mTimer: Timer? = null
+    private var mCursor: Cursor? = null
+    //mはメンバ変数の意味。今回は mCursor を使わなかったが、このようにcursorをメンバ変数で宣言する方法でもOK。
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,13 +122,20 @@ class MainActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             PERMISSION_REQUEST_CODE ->
+                //画像フォルダへのアクセスが許可されている場合
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getContentsInfo()
+                } else //画像フォルダへのアクセスが許可されていない場合
+                {
+                    btnStart.isEnabled = false
+                    btnBack.isEnabled = false
+                    btnNext.isEnabled = false
+                    textView.text = "「端末内部の写真、メディア、ファイルへのアクセス」を許可してください"
                 }
         }
     }
